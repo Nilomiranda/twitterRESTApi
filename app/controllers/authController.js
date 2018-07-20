@@ -39,7 +39,10 @@ module.exports = {
       // creates new user if the email or username isn't under use
       const user = await User.create(req.body);
 
-      return res.json(user);
+      return res.json({
+        user,
+        token: user.generateToken(),
+      });
     } catch (err) {
       return next(err);
     }

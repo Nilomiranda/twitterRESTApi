@@ -49,10 +49,16 @@ UserSchema.pre('save', async function hashPassword(next) {
 
 // adding new methods to our model
 UserSchema.methods = {
+  /**
+   * compare the given password with the encrypted one
+   */
   compareHash(password) {
     return bcrypt.compare(password, this.password);
   },
 
+  /**
+   * generates a new token each time a user authenticates
+   */
   generateToken() {
     return jwt.sign({ id: this.id }, authConfig.secret, {
       expiresIn: 86400,
