@@ -17,8 +17,12 @@ routes.use(authMiddleware);
 /**
  * post Auth routes
  */
-routes.get('/tweet', (req, res) => {
-  res.send(req.userId);
-});
+
+/**
+ * tweets routes
+ */
+routes.post('/tweets', controllers.tweetController.create);
+routes.delete('/tweets/:id', controllers.tweetController.delete);
+
 
 module.exports = routes;
