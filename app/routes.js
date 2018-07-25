@@ -30,4 +30,10 @@ routes.post('/tweets/:id', controllers.likeController.toogle);
  */
 routes.put('/users', controllers.userController.update);
 
+// interaction with users
+routes.post('/follow/:id', controllers.followController.create); // follow new user
+routes.delete('/unfollow/:id', controllers.followController.destroy); // unfollow new user
+
+/* ============================================================ */
+
 module.exports = routes;
