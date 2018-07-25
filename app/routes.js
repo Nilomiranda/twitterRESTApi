@@ -20,10 +20,14 @@ routes.use(authMiddleware);
 routes.post('/tweets', controllers.tweetController.create);
 routes.delete('/tweets/:id', controllers.tweetController.delete);
 
+// interaction with tweets
+routes.post('/tweets/:id', controllers.likeController.toogle);
+
+/* ============================================================ */
+
 /**
  * user routes
  */
 routes.put('/users', controllers.userController.update);
-
 
 module.exports = routes;
