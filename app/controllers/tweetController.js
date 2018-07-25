@@ -15,7 +15,7 @@ module.exports = {
 
   async delete(req, res, next) {
     try {
-      const tweetId = req.params.id;
+      const { id: tweetId } = req.params;
       await Tweet.findByIdAndRemove(tweetId);
       return res.json({ message: 'Tweet deleted successfully' });
     } catch (err) {

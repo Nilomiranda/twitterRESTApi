@@ -15,14 +15,15 @@ routes.get('/signin', controllers.authController.signin);
 routes.use(authMiddleware);
 
 /**
- * post Auth routes
- */
-
-/**
  * tweets routes
  */
 routes.post('/tweets', controllers.tweetController.create);
 routes.delete('/tweets/:id', controllers.tweetController.delete);
+
+/**
+ * user routes
+ */
+routes.put('/users', controllers.userController.update);
 
 
 module.exports = routes;
