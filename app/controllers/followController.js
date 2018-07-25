@@ -55,8 +55,35 @@ module.exports = {
       }
 
       const targetUser = await User.findById(id);
+
+      const follower = targetUser.followers.indexOf(req.userId);
+
+      if (follower === -1) {
+        return res.status(400).json({
+          Error: `You're not following ${targetUser.username}`,
+        });
+      }
+
+      targetUser.followers.splice(follower, 1);
+
+      targetUser.save();
+
+      const me = await User.findById(req.userId);
+      const following = me.following.indexOf(targetUser.id);
+
+      if (following !== -1) {
+        me.following.splice(me.following.indexOf(), 1);
+      } else {
+        return res.status(400).json({
+          Error: `You're not following ${targetUser.username}`,
+        });
+      }
+
+      me.save();
+
+      return res.status(200).json(targetUser);
     } catch (err) {
       return next(err);
     }
-  }
-}
+  },
+};
