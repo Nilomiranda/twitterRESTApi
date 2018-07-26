@@ -56,22 +56,31 @@ module.exports = {
 
       const targetUser = await User.findById(id);
 
+      // checks if the logged user is currently following the target user
       const follower = targetUser.followers.indexOf(req.userId);
 
       if (follower === -1) {
+        // if not following, you can't unfollow the user
         return res.status(400).json({
           Error: `You're not following ${targetUser.username}`,
         });
       }
 
+      /**
+       * if following, then removes the logged user id from the target user
+       * followers array
+       */
       targetUser.followers.splice(follower, 1);
 
-      targetUser.save();
+      targetUser.save(); // save the new user, with updated informations
 
       const me = await User.findById(req.userId);
+
+      // checks if the target user id is in the logged user following array
       const following = me.following.indexOf(targetUser.id);
 
       if (following !== -1) {
+        // if so, removes from the array
         me.following.splice(me.following.indexOf(), 1);
       } else {
         return res.status(400).json({
@@ -79,7 +88,7 @@ module.exports = {
         });
       }
 
-      me.save();
+      me.save(); // save the updated information about the logged user
 
       return res.status(200).json(targetUser);
     } catch (err) {

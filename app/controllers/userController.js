@@ -1,9 +1,31 @@
 const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
+const Tweet = mongoose.model('Tweet');
 
 // User controller methods
 module.exports = {
+  async me(req, res, next) {
+    // retrieving informations of the logged user
+    try {
+      const me = await User.findById(req.userId); // searching for user
+      console.log({ me });
+      const { username } = me;
+      const tweetCount = await Tweet.find({ userId: me.id }).count(); // counting his tweets
+      const followersCount = me.followers.length; // counting followers
+      const followingCount = me.following.length; // counting following
+
+      return res.json({
+        username,
+        tweetCount,
+        followersCount,
+        followingCount,
+      });
+    } catch (err) {
+      return next(err);
+    }
+  },
+
   async update(req, res, next) {
     try {
       const id = req.userId;

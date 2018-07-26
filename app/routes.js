@@ -29,6 +29,7 @@ routes.post('/tweets/:id', controllers.likeController.toogle);
  * user routes
  */
 routes.put('/users', controllers.userController.update);
+routes.get('/users/me', controllers.userController.me);
 
 // interaction with users
 routes.post('/follow/:id', controllers.followController.create); // follow new user
