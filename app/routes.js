@@ -30,6 +30,7 @@ routes.post('/tweets/:id', controllers.likeController.toogle);
  */
 routes.put('/users', controllers.userController.update);
 routes.get('/users/me', controllers.userController.me);
+routes.get('/feed', controllers.userController.feed);
 
 // interaction with users
 routes.post('/follow/:id', controllers.followController.create); // follow new user

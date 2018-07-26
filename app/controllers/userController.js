@@ -9,7 +9,6 @@ module.exports = {
     // retrieving informations of the logged user
     try {
       const me = await User.findById(req.userId); // searching for user
-      console.log({ me });
       const { username } = me;
       const tweetCount = await Tweet.find({ userId: me.id }).count(); // counting his tweets
       const followersCount = me.followers.length; // counting followers
@@ -59,4 +58,20 @@ module.exports = {
       return next(err);
     }
   },
+
+  async feed(req, res, next) {
+    try {
+      const user = await User.findById(req.userId);
+
+      // searching for tweets to fetch
+      const tweets = await Tweet
+        .find({ userId: { $in: [user.id, ...user.following] } }) // searching...
+        .limit(50) // limiting the number to return => 50...
+        .sort('-createdAt'); // sorting the tweets by date of creating, newest first...
+
+      return res.json(tweets);
+    } catch (err) {
+      return next(err);
+    }
+  }
 };
