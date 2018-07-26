@@ -2,6 +2,7 @@
  * for mongoose instructions, refer to its documentation
  * http://mongoosejs.com/docs/guide.html
  */
+require('dotenv').config();
 
 const app = require('express')();
 
