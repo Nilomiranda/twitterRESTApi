@@ -2,6 +2,8 @@ const mongoose = require('mongoose'); // importing mongoose
 
 const User = mongoose.model('User');
 
+const sendMail = require('../services/mailer');
+
 module.exports = {
   async signin(req, res, next) {
     try {
@@ -38,6 +40,17 @@ module.exports = {
 
       // creates new user if the email or username isn't under use
       const user = await User.create(req.body);
+
+      sendMail({
+        from: 'Danilo Miranda <nilomiranda3@gmail.com>',
+        to: user.email,
+        subject: `Bem vindo ao DanTwitter, ${user.name}`,
+        template: 'auth/register',
+        context: {
+          name: user.name,
+          username: user.username,
+        },
+      });
 
       return res.json({
         user,
